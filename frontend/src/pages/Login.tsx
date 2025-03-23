@@ -11,7 +11,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { isAuthenticated, error, message, loading, authChecked } = useAuth();
+  const { user, isAuthenticated, error, message, loading, authChecked } =
+    useAuth();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 

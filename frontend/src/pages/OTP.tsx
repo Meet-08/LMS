@@ -16,6 +16,10 @@ const OTP = () => {
   const [otp, setOtp] = useState("");
 
   useEffect(() => {
+    // if (message) {
+    //   toast.success(message);
+    // }
+
     if (error) {
       toast.error(error);
       dispatch(resetAuthSlice());
@@ -41,13 +45,6 @@ const OTP = () => {
     <>
       <div className="flex flex-col justify-center md:flex-row h-screen">
         <div className="w-full md:w-1/2 flex justify-center items-center bg-white p-8 relative">
-          <Link
-            to="/register"
-            className="border-2 border-black text-black rounded-3xl font-bold w-52 px-4 py-2 fixed top-10 -left-28 hover:bg-black hover:text-white transition duration-300 text-end"
-          >
-            Back
-          </Link>
-
           <div className="max-w-sm w-full">
             <div className="flex justify-center mb-12">
               <div className="rounded-full flex items-center justify-center">

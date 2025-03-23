@@ -42,6 +42,7 @@ const authSlice = createSlice({
       state.message = "Account verified";
     },
     otpVerificationFailed: (state, action) => {
+      console.log(action.payload);
       state.loading = false;
       state.error = action.payload.errorResponse.message;
     },
@@ -52,12 +53,15 @@ const authSlice = createSlice({
       state.message = null;
     },
     loginSuccess: (state, action) => {
+      console.log(action);
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload.data;
       state.message = "User login successful";
     },
     loginFailed: (state, action) => {
+      console.log(action.payload);
+
       state.loading = false;
       state.error = action.payload.errorResponse.message;
       state.message = null;

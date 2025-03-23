@@ -32,14 +32,12 @@ const Home = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
-      dispatch(resetAuthSlice());
     }
 
     if (message) {
       toast.success(message);
-      dispatch(resetAuthSlice());
     }
-  }, [dispatch, isAuthenticated, error, message, loading, authChecked, user]);
+  }, [dispatch, isAuthenticated, error, message, loading, authChecked]);
 
   if (loading || !authChecked) {
     return <div>Loading...</div>;
