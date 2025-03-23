@@ -4,6 +4,7 @@ export interface AuthState {
   message: null | string;
   user: null | User;
   isAuthenticated: boolean;
+  authChecked: boolean;
 }
 
 export interface User {

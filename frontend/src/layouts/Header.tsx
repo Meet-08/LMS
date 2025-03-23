@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../hooks/hooks";
+import { AppDispatch, useAuth } from "../hooks/hooks";
+import { useDispatch } from "react-redux";
+import userIcon from "../assets/user.png";
+import settingIcon from "../assets/setting.png";
+import { toggleSettingPopup } from "../store/slices/popUpSlice";
 
 const Header = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { user } = useAuth();
 
   const [currentTime, setCurrentTime] = useState("");
@@ -30,6 +35,35 @@ const Header = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  return <></>;
+  return (
+    <>
+      <header className="absolute top-0 bg-white w-full py-4 px-6 left-0 shadow-md flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <img src={userIcon} alt="userIcon" className="size-8" />
+          <div className="flex flex-col">
+            <span className="text-sm font-medium sm:text-lg lg:text-xl sm:font-semibold">
+              {user?.name}
+            </span>
+            <span className="text-sm font-medium sm:text-lg sm:font-medium">
+              {user?.role}
+            </span>
+          </div>
+        </div>
+        <div className="hidden md:flex items-center gap-2">
+          <div className="flex flex-col text-sm lg:text-base items-end font-semibold">
+            <span>{currentTime}</span>
+            <span>{currentDate}</span>
+          </div>
+          <span className="bg-black h-14 w-[2px]" />
+          <img
+            src={settingIcon}
+            alt="settingIcon"
+            className="size-8"
+            onClick={() => dispatch(toggleSettingPopup())}
+          />
+        </div>
+      </header>
+    </>
+  );
 };
 export default Header;

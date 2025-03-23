@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=${MONGO_URI}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_CLOUD_API_KEY=${CLOUDINARY_CLOUD_API_KEY}
+      - CLOUDINARY_CLOUD_SECRET=${CLOUDINARY_CLOUD_SECRET}
+      - JWT_SECRET=${JWT_SECRET}
+      - APP_EMAIL=${APP_EMAIL}
+      - APP_PASSWORD=${APP_PASSWORD}

@@ -8,6 +8,7 @@ const initialState: AuthState = {
   message: null,
   user: null,
   isAuthenticated: false,
+  authChecked: false,
 };
 
 const authSlice = createSlice({
@@ -21,11 +22,12 @@ const authSlice = createSlice({
     },
     registerSuccess: (state, action) => {
       state.loading = false;
-      state.message = action.payload.message;
+      state.message = action.payload.data;
+      state.error = null;
     },
     registerFailed: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.errorResponse.message;
     },
 
     otpVerificationRequest: (state) => {
@@ -36,12 +38,12 @@ const authSlice = createSlice({
     otpVerificationSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload.user;
-      state.message = action.payload.message;
+      state.user = action.payload.data;
+      state.message = "Account verified";
     },
     otpVerificationFailed: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.errorResponse.message;
     },
 
     loginRequest: (state) => {
@@ -52,12 +54,13 @@ const authSlice = createSlice({
     loginSuccess: (state, action) => {
       state.loading = false;
       state.isAuthenticated = true;
-      state.user = action.payload.user;
-      state.message = action.payload.message;
+      state.user = action.payload.data;
+      state.message = "User login successful";
     },
     loginFailed: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.errorResponse.message;
+      state.message = null;
     },
 
     logoutRequest: (state) => {
@@ -69,11 +72,11 @@ const authSlice = createSlice({
       state.loading = false;
       state.isAuthenticated = false;
       state.user = null;
-      state.message = action.payload;
+      state.message = action.payload.data;
     },
     logoutFailed: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.errorResponse.message;
       state.message = null;
     },
 
@@ -81,18 +84,21 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
       state.message = null;
+      state.authChecked = false;
     },
     getUserSuccess: (state, action) => {
       state.loading = false;
-      state.user = action.payload.user;
+      state.user = action.payload;
       state.isAuthenticated = true;
       state.message = action.payload.message;
+      state.authChecked = true;
     },
     getUserFailed: (state, action) => {
       state.loading = false;
       state.user = null;
       state.isAuthenticated = false;
       state.error = action.payload;
+      state.authChecked = true;
     },
 
     forgotPasswordRequest: (state) => {
@@ -102,11 +108,11 @@ const authSlice = createSlice({
     },
     forgotPasswordSuccess: (state, action) => {
       state.loading = false;
-      state.message = action.payload;
+      state.message = action.payload.data;
     },
     forgotPasswordFailed: (state, action) => {
       state.loading = false;
-      state.error = action.payload;
+      state.error = action.payload.errorResponse.message;
     },
 
     resetPasswordRequest: (state) => {
@@ -143,7 +149,7 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.message = null;
-      state.user = state.user ? state.user : null;
+      state.user = state.user;
       state.isAuthenticated = false;
     },
   },
@@ -232,7 +238,7 @@ export const forgotPassword = (email: string) => async (dispatch: Dispatch) => {
   await axios
     .post("auth/password/forgot", { email })
     .then((res) => {
-      dispatch(authSlice.actions.forgotPasswordSuccess(res.data?.message));
+      dispatch(authSlice.actions.forgotPasswordSuccess(res.data));
     })
     .catch((err: AxiosError) => {
       dispatch(authSlice.actions.forgotPasswordFailed(err.response?.data));
@@ -246,7 +252,7 @@ export const resetPassword =
     await axios
       .put(`auth/password/reset/${token}`, data)
       .then((res) => {
-        dispatch(authSlice.actions.resetPasswordSuccess(res.data?.message));
+        dispatch(authSlice.actions.resetPasswordSuccess(res.data));
       })
       .catch((err: AxiosError) => {
         dispatch(authSlice.actions.resetPasswordFailed(err.response?.data));
@@ -260,7 +266,7 @@ export const updatePassword =
     await axios
       .put(`auth/password/update`, data)
       .then((res) => {
-        dispatch(authSlice.actions.updatePasswordSuccess(res.data?.message));
+        dispatch(authSlice.actions.updatePasswordSuccess(res.data));
       })
       .catch((err: AxiosError) => {
         dispatch(authSlice.actions.updatePasswordFailed(err.response?.data));
