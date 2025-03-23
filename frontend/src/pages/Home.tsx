@@ -12,7 +12,7 @@ import {
 import { AppDispatch, useAuth } from "../hooks/hooks";
 import { Navigate, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { getUser, resetAuthSlice } from "../store/slices/authSlice";
+import { getUser } from "../store/slices/authSlice";
 import { toast } from "react-toastify";
 
 const Home = () => {

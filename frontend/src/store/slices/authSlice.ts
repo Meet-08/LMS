@@ -26,6 +26,7 @@ const authSlice = createSlice({
       state.error = null;
     },
     registerFailed: (state, action) => {
+      console.log(action);
       state.loading = false;
       state.error = action.payload.errorResponse.message;
     },
@@ -60,8 +61,6 @@ const authSlice = createSlice({
       state.message = "User login successful";
     },
     loginFailed: (state, action) => {
-      console.log(action.payload);
-
       state.loading = false;
       state.error = action.payload.errorResponse.message;
       state.message = null;
