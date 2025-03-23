@@ -75,7 +75,7 @@ public class AuthService {
         }
     }
 
-    public ResponseEntity<ApiResponse<String>> verifyOTP(String email, Integer otp, HttpServletResponse response) {
+    public ResponseEntity<ApiResponse<User>> verifyOTP(String email, Integer otp, HttpServletResponse response) {
         try {
             LinkedList<User> userAllEntries = userRepository.findByEmailAndAccountVerified(email, false)
                     .stream()
@@ -105,13 +105,11 @@ public class AuthService {
             response.addCookie(
                     CookieUtil.getCookieValue("auth_token", jwtUtil.generateToken(savedUser.getEmail(), savedUser.getId()), 7)
             );
-            return ResponseEntity.ok(new ApiResponse<>("Account verified successfully", true));
+            return ResponseEntity.ok(new ApiResponse<>(savedUser, true));
 
         } catch (ErrorResponse e) {
             return ResponseEntity.status(e.getStatusCode())
-                    .body(new ApiResponse<>(e.getMessage(), false));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(new ApiResponse<>(e.getMessage(), false));
+                    .body(new ApiResponse<>(e, false));
         }
     }
 
@@ -233,4 +231,31 @@ public class AuthService {
         }
     }
 
+    public ResponseEntity<ApiResponse<String>> logout(HttpServletRequest request, HttpServletResponse response) {
+
+        try {
+
+            String token = null;
+
+            Cookie[] cookies = request.getCookies();
+
+            if (cookies != null) {
+                for (Cookie c : request.getCookies()) {
+                    if (c.getName().equals("auth_token"))
+                        token = c.getValue();
+                }
+            }
+
+            if (token == null)
+                throw new ErrorResponse("User is not authenticated", 401);
+
+            response.addCookie(CookieUtil.deleteCookie("auth_token"));
+            return ResponseEntity.ok(new ApiResponse<>("Logged out successfully", true));
+        } catch (ErrorResponse e) {
+            return ResponseEntity.status(e.getStatusCode()).body(
+                    new ApiResponse<>(new ErrorResponse(e.getMessage(), e.getStatusCode()), false)
+            );
+        }
+
+    }
 }

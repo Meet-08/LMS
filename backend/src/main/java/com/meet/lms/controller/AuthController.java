@@ -4,7 +4,6 @@ import com.meet.lms.dto.*;
 import com.meet.lms.error.ErrorResponse;
 import com.meet.lms.models.User;
 import com.meet.lms.service.AuthService;
-import com.meet.lms.utils.CookieUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -26,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/verify-otp")
-    public ResponseEntity<ApiResponse<String>> verifyOtp(
+    public ResponseEntity<ApiResponse<User>> verifyOtp(
             @Valid @RequestBody OtpRequest otpRequest,
             HttpServletResponse response
     ) {
@@ -43,9 +42,8 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletResponse response) {
-        response.addCookie(CookieUtil.deleteCookie("auth_token"));
-        return ResponseEntity.ok("Logged out successfully");
+    public ResponseEntity<ApiResponse<String>> logout(HttpServletRequest request, HttpServletResponse response) {
+        return authService.logout(request, response);
     }
 
     @GetMapping("/me")
@@ -76,7 +74,7 @@ public class AuthController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleValidationExceptions(Exception ex) {
-        ApiResponse<?> response = new ApiResponse<>(new ErrorResponse(ex.getMessage()
+        ApiResponse<?> response = new ApiResponse<>(new ErrorResponse("Please Enter all fields"
                 , 400), false);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }

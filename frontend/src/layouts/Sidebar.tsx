@@ -9,10 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, useAuth } from "../hooks/hooks";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { resetAuthSlice } from "../store/slices/authSlice";
+import { logout, resetAuthSlice } from "../store/slices/authSlice";
 import { links } from "../constants/NavbarLinks";
 import NavbarButton from "../components/NavbarButton";
-import { toggleAddNewAdminPopup } from "../store/slices/popUpSlice";
+import {
+  toggleAddNewAdminPopup,
+  toggleSettingPopup,
+} from "../store/slices/popUpSlice";
 import AddNewAdminPopup from "../popups/AddNewAdminPopup";
 
 type props = {
@@ -28,22 +31,11 @@ const Sidebar = ({
 }: props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { addNewAdminPopup } = useSelector((state: RootState) => state.popup);
-  const { user, loading, error, isAuthenticated, message } = useAuth();
-
-  useEffect(() => {
-    if (error) {
-      toast.error(error);
-      dispatch(resetAuthSlice());
-    }
-
-    if (message) {
-      toast.success(message);
-      dispatch(resetAuthSlice());
-    }
-  }, [dispatch, isAuthenticated, error, message, loading]);
+  const { user, loading, error, isAuthenticated, message, authChecked } =
+    useAuth();
 
   const handleLogout = () => {
-    dispatch(resetAuthSlice());
+    dispatch(logout());
   };
 
   return (
@@ -68,29 +60,29 @@ const Sidebar = ({
             />
           ))}
 
-          {/* {isAuthenticated && user?.role === "ADMIN" && ( */}
-          <>
-            <button
-              onClick={() => setSelectedComponent("Catalog")}
-              className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
-            >
-              <img src={catalogIcon} alt="catalog" /> <span>Catalog</span>
-            </button>
-            <button
-              onClick={() => setSelectedComponent("Users")}
-              className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
-            >
-              <img src={usersIcon} alt="users" /> <span>Users</span>
-            </button>
-            <button
-              className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
-              onClick={() => dispatch(toggleAddNewAdminPopup())}
-            >
-              <RiAdminFill className="size-6" />
-              <span>Add New Admin</span>
-            </button>
-          </>
-          {/* )} */}
+          {isAuthenticated && user?.role === "ADMIN" && (
+            <>
+              <button
+                onClick={() => setSelectedComponent("Catalog")}
+                className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
+              >
+                <img src={catalogIcon} alt="catalog" /> <span>Catalog</span>
+              </button>
+              <button
+                onClick={() => setSelectedComponent("Users")}
+                className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
+              >
+                <img src={usersIcon} alt="users" /> <span>Users</span>
+              </button>
+              <button
+                className="w-full py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center space-x-2"
+                onClick={() => dispatch(toggleAddNewAdminPopup())}
+              >
+                <RiAdminFill className="size-6" />
+                <span>Add New Admin</span>
+              </button>
+            </>
+          )}
           {isAuthenticated && user?.role === "USER" && (
             <NavbarButton
               component="My Borrowed Books"
@@ -101,7 +93,7 @@ const Sidebar = ({
           <NavbarButton
             component="Update Credentials"
             imageSrc={settingIcon}
-            onClick={() => setSelectedComponent("")}
+            onClick={() => dispatch(toggleSettingPopup())}
           />
         </nav>
 

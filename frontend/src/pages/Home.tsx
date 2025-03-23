@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Sidebar from "../layouts/Sidebar";
 import {
@@ -9,17 +9,43 @@ import {
   UserDashboard,
   MyBorrowedBook,
 } from "../components/component";
-import { useAuth } from "../hooks/hooks";
+import { AppDispatch, useAuth } from "../hooks/hooks";
+import { Navigate, useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { getUser, resetAuthSlice } from "../store/slices/authSlice";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [selectedComponent, setselectedComponent] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, loading, error, message, authChecked } =
+    useAuth();
 
-  // if (!isAuthenticated) {
-  //   return <Navigate to="/login" />;
-  // }
+  useEffect(() => {
+    (async () => {
+      await dispatch(getUser());
+    })();
+  }, [dispatch, getUser]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+    }
+
+    if (message) {
+      toast.success(message);
+    }
+  }, [dispatch, isAuthenticated, error, message, loading, authChecked]);
+
+  if (loading || !authChecked) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>

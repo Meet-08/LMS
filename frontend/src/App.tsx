@@ -11,7 +11,7 @@ import {
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 
-axios.defaults.baseURL = import.meta.env.BACKEND_URL;
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.withCredentials = true;
 
 const App = () => {
