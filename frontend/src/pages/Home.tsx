@@ -20,14 +20,8 @@ const Home = () => {
   const [selectedComponent, setselectedComponent] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
-  const { user, isAuthenticated, loading, error, message, authChecked } =
+  const { user, error, message, isAuthenticated, authChecked, loading } =
     useAuth();
-
-  useEffect(() => {
-    (async () => {
-      await dispatch(getUser());
-    })();
-  }, [dispatch, getUser]);
 
   useEffect(() => {
     if (error) {
@@ -37,14 +31,10 @@ const Home = () => {
     if (message) {
       toast.success(message);
     }
-  }, [dispatch, isAuthenticated, error, message, loading, authChecked]);
+  }, [dispatch, isAuthenticated, error, message, authChecked]);
 
   if (loading || !authChecked) {
     return <div>Loading...</div>;
-  }
-
-  if (!isAuthenticated) {
-    return <Navigate to="/login" />;
   }
 
   return (

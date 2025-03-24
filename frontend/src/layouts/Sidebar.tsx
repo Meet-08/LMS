@@ -17,6 +17,7 @@ import {
   toggleSettingPopup,
 } from "../store/slices/popUpSlice";
 import AddNewAdminPopup from "../popups/AddNewAdminPopup";
+import { Navigate } from "react-router";
 
 type props = {
   isSideBarOpen: boolean;
@@ -31,8 +32,7 @@ const Sidebar = ({
 }: props) => {
   const dispatch = useDispatch<AppDispatch>();
   const { addNewAdminPopup } = useSelector((state: RootState) => state.popup);
-  const { user, loading, error, isAuthenticated, message, authChecked } =
-    useAuth();
+  const { user, isAuthenticated } = useAuth();
 
   const handleLogout = () => {
     dispatch(logout());

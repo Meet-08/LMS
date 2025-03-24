@@ -21,11 +21,13 @@ const authSlice = createSlice({
       state.message = null;
     },
     registerSuccess: (state, action) => {
+      console.log("registerSuccess", action);
       state.loading = false;
       state.message = action.payload.data;
       state.error = null;
     },
     registerFailed: (state, action) => {
+      console.log("registerFailed", action);
       console.log(action);
       state.loading = false;
       state.error = action.payload.errorResponse.message;
@@ -37,13 +39,14 @@ const authSlice = createSlice({
       state.message = null;
     },
     otpVerificationSuccess: (state, action) => {
+      console.log("otpVerificationSuccess", action);
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload.data;
       state.message = "Account verified";
     },
     otpVerificationFailed: (state, action) => {
-      console.log(action.payload);
+      console.log("otpVerificationFailed", action);
       state.loading = false;
       state.error = action.payload.errorResponse.message;
     },
@@ -54,13 +57,14 @@ const authSlice = createSlice({
       state.message = null;
     },
     loginSuccess: (state, action) => {
-      console.log(action);
+      console.log("Login success", action);
       state.loading = false;
       state.isAuthenticated = true;
       state.user = action.payload.data;
       state.message = "User login successful";
     },
     loginFailed: (state, action) => {
+      console.log("Login failed", action);
       state.loading = false;
       state.error = action.payload.errorResponse.message;
       state.message = null;
@@ -72,12 +76,14 @@ const authSlice = createSlice({
       state.message = null;
     },
     logoutSuccess: (state, action) => {
+      console.log("Logout success", action);
       state.loading = false;
       state.isAuthenticated = false;
       state.user = null;
       state.message = action.payload.data;
     },
     logoutFailed: (state, action) => {
+      console.log("Logout failed", action);
       state.loading = false;
       state.error = action.payload.errorResponse.message;
       state.message = null;
@@ -90,6 +96,7 @@ const authSlice = createSlice({
       state.authChecked = false;
     },
     getUserSuccess: (state, action) => {
+      console.log("getUser success", action);
       state.loading = false;
       state.user = action.payload;
       state.isAuthenticated = true;
@@ -97,10 +104,11 @@ const authSlice = createSlice({
       state.authChecked = true;
     },
     getUserFailed: (state, action) => {
+      console.log("getUser failed", action);
       state.loading = false;
       state.user = null;
       state.isAuthenticated = false;
-      state.error = action.payload;
+      // state.error = action.payload.errorResponse.message;
       state.authChecked = true;
     },
 
@@ -110,10 +118,12 @@ const authSlice = createSlice({
       state.message = null;
     },
     forgotPasswordSuccess: (state, action) => {
+      console.log("forgotPassword success", action);
       state.loading = false;
       state.message = action.payload.data;
     },
     forgotPasswordFailed: (state, action) => {
+      console.log("forgotPassword failed", action);
       state.loading = false;
       state.error = action.payload.errorResponse.message;
     },
@@ -124,12 +134,14 @@ const authSlice = createSlice({
       state.message = null;
     },
     resetPasswordSuccess: (state, action) => {
+      console.log("resetPassword success", action);
       state.loading = false;
       state.message = action.payload;
       state.user = action.payload.user;
       state.isAuthenticated = true;
     },
     resetPasswordFailed: (state, action) => {
+      console.log("resetPassword failed", action);
       state.loading = false;
       state.error = action.payload;
     },
@@ -140,10 +152,12 @@ const authSlice = createSlice({
       state.message = null;
     },
     updatePasswordSuccess: (state, action) => {
+      console.log("updatePassword success", action);
       state.loading = false;
       state.message = action.payload;
     },
     updatePasswordFailed: (state, action) => {
+      console.log("updatePassword failed", action);
       state.loading = false;
       state.error = action.payload;
     },
@@ -215,7 +229,6 @@ export const logout = () => async (dispatch: Dispatch) => {
     .get("auth/logout")
     .then((res) => {
       dispatch(authSlice.actions.logoutSuccess(res.data));
-      dispatch(authSlice.actions.resetAuthSlice());
     })
     .catch((err: AxiosError) => {
       dispatch(authSlice.actions.logoutFailed(err.response?.data));

@@ -7,9 +7,15 @@ export interface AuthState {
   authChecked: boolean;
 }
 
+export interface userState {
+  users: User[];
+  loading: boolean;
+}
+
 export interface User {
   name: string;
   email: string;
   password: string;
   role?: string;
+  avatarUrl?: string;
 }

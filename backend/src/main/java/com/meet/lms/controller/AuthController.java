@@ -74,7 +74,7 @@ public class AuthController {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleValidationExceptions(Exception ex) {
-        ApiResponse<?> response = new ApiResponse<>(new ErrorResponse("Please Enter all fields"
+        ApiResponse<?> response = new ApiResponse<>(new ErrorResponse(ex.getMessage()
                 , 400), false);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
