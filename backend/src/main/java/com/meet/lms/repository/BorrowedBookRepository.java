@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface BorrowedBookRepository extends MongoRepository<BorrowedBooks, String> {
 
-    List<BorrowedBooks> findByDueDateAfterAndReturnedFalseAndNotifiedFalse(LocalDateTime date);
+    List<BorrowedBooks> findByDueDateAfterAndIsReturnedFalseAndNotifiedFalse(LocalDateTime date);
+
 }

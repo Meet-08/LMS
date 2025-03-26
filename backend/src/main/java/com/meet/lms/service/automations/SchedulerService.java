@@ -28,10 +28,10 @@ public class SchedulerService {
     @Scheduled(cron = "0 0 */2 * * *")
     public void notifyUsers() {
         try {
+            System.out.println("Email notification scheduled");
             LocalDateTime yesterday = LocalDateTime.now().minusDays(1);
             List<BorrowedBooks> borrowers =
-                    borrowedBookRepository.findByDueDateAfterAndReturnedFalseAndNotifiedFalse(yesterday);
-
+                    borrowedBookRepository.findByDueDateAfterAndIsReturnedFalseAndNotifiedFalse(yesterday);
 
             borrowers.forEach(
                     b -> {

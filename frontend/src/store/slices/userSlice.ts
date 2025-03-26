@@ -45,7 +45,7 @@ export const fetchAllUsers = () => async (dispatch: Dispatch) => {
     });
 };
 
-export const addNewAdmin = (data: User) => async (dispatch: Dispatch) => {
+export const addNewAdmin = (data: FormData) => async (dispatch: Dispatch) => {
   dispatch(userSlice.actions.addNewAdminRequest());
   await axios
     .post("/user/add/new-admin", data)

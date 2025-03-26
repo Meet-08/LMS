@@ -108,7 +108,6 @@ const authSlice = createSlice({
       state.loading = false;
       state.user = null;
       state.isAuthenticated = false;
-      // state.error = action.payload.errorResponse.message;
       state.authChecked = true;
     },
 
@@ -154,7 +153,7 @@ const authSlice = createSlice({
     updatePasswordSuccess: (state, action) => {
       console.log("updatePassword success", action);
       state.loading = false;
-      state.message = action.payload;
+      state.message = action.payload.data;
     },
     updatePasswordFailed: (state, action) => {
       console.log("updatePassword failed", action);
@@ -173,7 +172,7 @@ const authSlice = createSlice({
 });
 
 type passwordType = {
-  user?: User;
+  user?: User | null;
   newPassword?: string;
   password: string;
   confirmPassword: string;

@@ -1,3 +1,5 @@
+import { book } from "./bookInterface";
+
 export interface AuthState {
   loading: boolean;
   error: null;
@@ -8,7 +10,7 @@ export interface AuthState {
 }
 
 export interface userState {
-  users: User[];
+  users: User[] | null;
   loading: boolean;
 }
 
@@ -18,4 +20,6 @@ export interface User {
   password: string;
   role?: string;
   avatarUrl?: string;
+  borrowedBooks?: book[];
+  createdAt?: string;
 }

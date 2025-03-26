@@ -7,17 +7,14 @@ import usersIcon from "../assets/people.png";
 import { RiAdminFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, useAuth } from "../hooks/hooks";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import { logout, resetAuthSlice } from "../store/slices/authSlice";
+import { logout } from "../store/slices/authSlice";
 import { links } from "../constants/NavbarLinks";
 import NavbarButton from "../components/NavbarButton";
 import {
   toggleAddNewAdminPopup,
   toggleSettingPopup,
 } from "../store/slices/popUpSlice";
-import AddNewAdminPopup from "../popups/AddNewAdminPopup";
-import { Navigate } from "react-router";
+import { AddNewAdminPopup, SettingPopup } from "../popups/popups";
 
 type props = {
   isSideBarOpen: boolean;
@@ -31,7 +28,9 @@ const Sidebar = ({
   setSelectedComponent,
 }: props) => {
   const dispatch = useDispatch<AppDispatch>();
-  const { addNewAdminPopup } = useSelector((state: RootState) => state.popup);
+  const { addNewAdminPopup, settingPopup } = useSelector(
+    (state: RootState) => state.popup
+  );
   const { user, isAuthenticated } = useAuth();
 
   const handleLogout = () => {
@@ -43,7 +42,7 @@ const Sidebar = ({
       <aside
         className={`${
           isSideBarOpen ? "left-0" : "-left-full"
-        } z-10 transition-all duration-700 md:relative md:left-0 flex w-60 bg-black text-white flex-col h-full`}
+        } z-10 transition-all duration-700 md:relative md:left-0 flex w-64 bg-black text-white flex-col h-full`}
         style={{ position: "fixed" }}
       >
         <div className="px-6 py-4 my-8">
@@ -97,12 +96,12 @@ const Sidebar = ({
           />
         </nav>
 
-        <div className="p-4">
+        <div className="mx-auto">
           <button
-            className="py-2 font-medium bg-transparent text-center rounded-md hover:cursor-pointer flex items-center space-x-5 mx-auto justify-center w-fit"
+            className="py-2 font-medium bg-transparent rounded-md hover:cursor-pointer flex items-center justify-center w-full"
             onClick={handleLogout}
           >
-            <img src={logoutIcon} alt="icon" />
+            <img src={logoutIcon} alt="icon" className="mx-2" />
             <span>Logout</span>
           </button>
         </div>
@@ -114,6 +113,7 @@ const Sidebar = ({
         />
       </aside>
       {addNewAdminPopup && <AddNewAdminPopup />}
+      {settingPopup && <SettingPopup />}
     </>
   );
 };

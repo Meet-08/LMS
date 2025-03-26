@@ -10,9 +10,9 @@ import {
   MyBorrowedBook,
 } from "../components/component";
 import { AppDispatch, useAuth } from "../hooks/hooks";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { getUser } from "../store/slices/authSlice";
+import { resetAuthSlice } from "../store/slices/authSlice";
 import { toast } from "react-toastify";
 
 const Home = () => {
@@ -30,11 +30,16 @@ const Home = () => {
 
     if (message) {
       toast.success(message);
+      dispatch(resetAuthSlice());
     }
   }, [dispatch, isAuthenticated, error, message, authChecked]);
 
   if (loading || !authChecked) {
     return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
 
   return (
