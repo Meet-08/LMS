@@ -8,8 +8,9 @@ import com.meet.lms.models.User;
 import com.meet.lms.repository.BookRepository;
 import com.meet.lms.repository.BorrowedBookRepository;
 import com.meet.lms.repository.UserRepository;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import com.meet.lms.utils.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class BorrowedBookService {
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
     private final BorrowedBookRepository borrowedBookRepository;
+    private final JwtUtil jwtUtil;
 
     public ResponseEntity<ApiResponse<String>> recordBorrowedBook(String id, String email) {
         try {
@@ -133,10 +135,25 @@ public class BorrowedBookService {
         }
     }
 
-    public ResponseEntity<ApiResponse<List<BorrowedBooks>>> getBorrowedBooks(@NotNull @Email String email) {
+    public ResponseEntity<ApiResponse<List<BorrowedBooks>>> getBorrowedBooks(HttpServletRequest request) {
 
         try {
-            User user = userRepository.findByEmailAndAccountVerifiedTrue(email);
+            Cookie[] cookie = request.getCookies();
+            if (cookie == null || cookie.length == 0) {
+                throw new ErrorResponse("No authentication cookie found", 401);
+            }
+
+            String token = null;
+
+            for (Cookie c : cookie) {
+                if (c.getName().equals("auth_token"))
+                    token = c.getValue();
+            }
+
+            if (token == null)
+                throw new ErrorResponse("No authentication cookie found", 401);
+
+            User user = userRepository.findByEmailAndAccountVerifiedTrue(jwtUtil.getEmailFromToken(token));
 
             if (user == null)
                 throw new ErrorResponse("User not found", 404);

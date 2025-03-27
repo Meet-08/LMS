@@ -6,3 +6,10 @@ export interface book {
   quantity: number;
   availability?: boolean;
 }
+
+export interface borrowBook {
+  userId: string;
+  bookId: string;
+  price: number;
+  fine?: number;
+}

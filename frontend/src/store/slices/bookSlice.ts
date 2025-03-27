@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { book } from "../../interfaces/bookInterface";
+import { ApiResponse, ErrorResponse } from "../../interfaces/ApiResponse";
 
 const bookSlice = createApi({
   reducerPath: "bookApi",
@@ -16,9 +17,21 @@ const bookSlice = createApi({
       }),
       providesTags: ["Book"],
     }),
+    addBook: builder.mutation<string, book>({
+      query: (book) => ({
+        url: "/admin/add",
+        method: "POST",
+        body: book,
+      }),
+      transformResponse: (response: ApiResponse<string>) => {
+        if (!response.success) throw new Error(response.errorResponse?.message);
+        return response.data || "Something went wrong";
+      },
+      invalidatesTags: ["Book"],
+    }),
   }),
 });
 
-export const { useFetchAllBooksQuery } = bookSlice;
+export const { useFetchAllBooksQuery, useAddBookMutation } = bookSlice;
 
 export default bookSlice;

@@ -1,14 +1,17 @@
-import { useFetchAllBooksQuery } from "../store/slices/bookSlice";
+import {
+  useAddBookMutation,
+  useFetchAllBooksQuery,
+} from "../store/slices/bookSlice";
 import { book } from "../interfaces/bookInterface";
 
 const BookManagement = () => {
-  const { data, isError } = useFetchAllBooksQuery();
-
+  const { data: book, isError, error } = useFetchAllBooksQuery();
+  if (error) console.log(error);
   return (
     <div>
       {isError
         ? "Error fetching books"
-        : data?.map((book: book) => (
+        : book?.map((book: book) => (
             <div key={book.author}>{book.title}</div>
           )) || "No books found"}
     </div>

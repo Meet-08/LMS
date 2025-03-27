@@ -19,7 +19,7 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 axios.defaults.withCredentials = true;
 
 const App = () => {
-  const { user, isAuthenticated, authChecked, error } = useAuth();
+  const { user, isAuthenticated, error } = useAuth();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

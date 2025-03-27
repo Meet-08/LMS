@@ -5,6 +5,7 @@ import com.meet.lms.dto.EmailRequest;
 import com.meet.lms.error.ErrorResponse;
 import com.meet.lms.models.BorrowedBooks;
 import com.meet.lms.service.BorrowedBookService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -43,9 +44,9 @@ public class BorrowedBookController {
 
     @GetMapping("/my-borrowed-books")
     public ResponseEntity<ApiResponse<List<BorrowedBooks>>> getBorrowedBooks(
-            @Valid @RequestBody EmailRequest request
+            HttpServletRequest request
     ) {
-        return borrowedBookService.getBorrowedBooks(request.getEmail());
+        return borrowedBookService.getBorrowedBooks(request);
     }
 
     @ExceptionHandler(Exception.class)

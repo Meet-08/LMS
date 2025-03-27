@@ -13,4 +13,5 @@ public class ErrorResponse extends Exception {
         super(message);
         this.statusCode = statusCode;
     }
+
 }
