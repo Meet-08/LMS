@@ -1,6 +1,10 @@
 import React from "react";
 
-const ReadBookPopup = () => {
+type props = {
+  bookId: string;
+};
+
+const ReadBookPopup = ({ bookId }: props) => {
   return <div></div>;
 };
 

@@ -10,11 +10,12 @@ const bookSlice = createApi({
   }),
   tagTypes: ["Book"],
   endpoints: (builder) => ({
-    fetchAllBooks: builder.query<book[], void>({
+    fetchAllBooks: builder.query<ApiResponse<book[]>, void>({
       query: () => ({
         url: "/all",
         method: "GET",
       }),
+
       providesTags: ["Book"],
     }),
     addBook: builder.mutation<string, book>({
@@ -26,15 +27,6 @@ const bookSlice = createApi({
       transformResponse: (response: ApiResponse<string>) => {
         if (!response.success) throw new Error(response.errorResponse?.message);
         return response.data || "Something went wrong";
-      },
-      transformErrorResponse: (response) => {
-        return {
-          errorResponse: {
-            message: response.data as string,
-            statusCode: response.status as number,
-          },
-          success: false,
-        };
       },
       invalidatesTags: ["Book"],
     }),
