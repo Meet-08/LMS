@@ -1,5 +1,5 @@
 export interface book {
-  _id?: string;
+  id?: string;
   title: string;
   author: string;
   description: number;
@@ -9,8 +9,14 @@ export interface book {
 }
 
 export interface borrowBook {
+  _id?: string;
   userId: string;
   bookId: string;
+  bookTitle: string;
+  borrowedDate?: string;
+  dueDate?: string;
+  returnedDate?: string;
   price: number;
   fine?: number;
+  returned?: boolean;
 }

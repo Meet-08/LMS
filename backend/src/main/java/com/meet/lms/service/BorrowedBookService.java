@@ -58,6 +58,7 @@ public class BorrowedBookService {
             BorrowedBooks borrowedBook = new BorrowedBooks();
 
             borrowedBook.setBookId(book.getId());
+            borrowedBook.setBookTitle(book.getTitle());
             borrowedBook.setUserId(user.getId());
             borrowedBook.setPrice(book.getPrice());
             borrowedBook.setDueDate(borrowedBook.getBorrowedDate().plusDays(2));
@@ -154,15 +155,10 @@ public class BorrowedBookService {
                 throw new ErrorResponse("No authentication cookie found", 401);
 
             User user = userRepository.findByEmailAndAccountVerifiedTrue(jwtUtil.getEmailFromToken(token));
-
             if (user == null)
                 throw new ErrorResponse("User not found", 404);
 
             List<BorrowedBooks> borrowedBooks = user.getBorrowedBooks();
-
-            if (borrowedBooks.isEmpty()) {
-                throw new ErrorResponse("No borrowed books found for this user", 404);
-            }
 
             return ResponseEntity.ok(
                     new ApiResponse<>(borrowedBooks, true)

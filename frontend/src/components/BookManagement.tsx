@@ -11,11 +11,18 @@ import {
 } from "../store/slices/popUpSlice";
 import Header from "../layouts/Header";
 import { AddBookPopup, ReadBookPopup, RecordBookPopup } from "../popups/popups";
+import { Typography } from "@mui/material";
 
 const BookManagement = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { user, isAuthenticated } = useAuth();
-  const { data: books } = useFetchAllBooksQuery();
+
+  const {
+    data: books,
+    isLoading: booksLoading,
+    isError: booksError,
+  } = useFetchAllBooksQuery();
+
   const { addBookPopup, readBookPopup, recordBookPopup } = useSelector(
     (state: RootState) => state.popup
   );
@@ -41,6 +48,20 @@ const BookManagement = () => {
       ) || []
     );
   }, [searchKeyWord, books]);
+
+  if (booksError)
+    return (
+      <Typography variant="h4" color="red">
+        Something went wrong
+      </Typography>
+    );
+
+  if (booksLoading)
+    return (
+      <Typography variant="h4" color="secondary">
+        Loading...
+      </Typography>
+    );
 
   return (
     <>
@@ -93,7 +114,7 @@ const BookManagement = () => {
               <tbody>
                 {searchedBooks?.map((book, index) => (
                   <tr
-                    key={book._id || index}
+                    key={book.id || index}
                     className={(index + 1) % 2 === 0 ? "bg-gray-50" : ""}
                   >
                     <td className="px-4 py-2 text-center">{index + 1}</td>
@@ -109,11 +130,11 @@ const BookManagement = () => {
                     {isAuthenticated && user?.role === "ADMIN" && (
                       <td className="px-4 py-2 flex space-x-2 my-3 justify-center">
                         <BookA
-                          onClick={() => console.log("To DO")}
+                          onClick={(e) => openReadPopup(book)}
                           className="cursor-pointer"
                         />
                         <NotebookPen
-                          onClick={() => console.log("To DO")}
+                          onClick={() => openRecordPopup(book.id || "")}
                           className="cursor-pointer"
                         />
                       </td>
@@ -130,8 +151,8 @@ const BookManagement = () => {
         )}
       </main>
       {addBookPopup && <AddBookPopup />}
-      {readBookPopup && <ReadBookPopup bookId={readBook?._id || ""} />}
-      {recordBookPopup && <RecordBookPopup />}
+      {readBookPopup && <ReadBookPopup book={readBook} />}
+      {recordBookPopup && <RecordBookPopup bookId={borrowBookId || ""} />}
     </>
   );
 };

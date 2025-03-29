@@ -25,6 +25,8 @@ public class BorrowedBooks {
     @NotNull
     private double price;
 
+    private String bookTitle;
+
     private boolean isReturned = false;
 
     private LocalDateTime borrowedDate = LocalDateTime.now();

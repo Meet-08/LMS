@@ -49,7 +49,10 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/v1/auth/**").permitAll()
-                        .requestMatchers("/api/v1/borrow/borrowed-books-by-user").hasAuthority(UserRole.ADMIN.toString())
+                        .requestMatchers(
+                                "/api/v1/borrow/borrowed-books-by-user",
+                                "/api/v1/borrow/record-borrow-book/*"
+                        ).hasAuthority(UserRole.ADMIN.toString())
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtFilterChain, UsernamePasswordAuthenticationFilter.class);
