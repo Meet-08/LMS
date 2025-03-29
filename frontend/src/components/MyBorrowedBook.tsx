@@ -8,8 +8,8 @@ import Header from "../layouts/Header";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { BookA } from "lucide-react";
-import { useFetchAllBooksQuery } from "../store/slices/bookSlice";
-import { formateDate } from "../constants/dateformetter";
+import { useFetchAllBooksQuery } from "../store/api/bookApi";
+import { formateDateTime } from "../constants/dateformetter";
 import { ReadBookPopup } from "../popups/popups";
 
 const MyBorrowedBook = () => {
@@ -23,7 +23,6 @@ const MyBorrowedBook = () => {
 
   const { data: books } = useFetchAllBooksQuery();
   const { readBookPopup } = useSelector((state: RootState) => state.popup);
-  console.log(books);
   const [readBook, setReadBook] = useState<book>();
   const openReadPopup = (book: book | undefined) => {
     if (!book) return toast.error("Book not found");
@@ -95,16 +94,16 @@ const MyBorrowedBook = () => {
               <tbody>
                 {booksToDisplay.map((book, index) => (
                   <tr
-                    key={book._id || index}
+                    key={book.id || index}
                     className={(index + 1) % 2 === 0 ? "bg-gray-50" : ""}
                   >
                     <td className="px-4 py-2 text-center">{index + 1}</td>
                     <td className="px-4 py-2 text-center">{book.bookTitle}</td>
                     <td className="px-4 py-2 text-center">
-                      {formateDate(book.borrowedDate)}
+                      {formateDateTime(book.borrowedDate)}
                     </td>
                     <td className="px-4 py-2 text-center">
-                      {formateDate(book.dueDate)}
+                      {formateDateTime(book.dueDate)}
                     </td>
                     <td className="px-4 py-2 text-center">
                       {book.returned ? "Yes" : "No"}

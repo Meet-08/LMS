@@ -34,6 +34,11 @@ public class UserController {
         return userService.registerNewAdmin(user, avatarFile);
     }
 
+    @GetMapping("admin/{id}")
+    public ResponseEntity<User> getUser(@PathVariable String id) {
+        return userService.getUser(id);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<?>> handleValidationExceptions(Exception ex) {
         ApiResponse<?> response = new ApiResponse<>(new ErrorResponse(ex.getMessage()

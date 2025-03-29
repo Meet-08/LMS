@@ -72,4 +72,15 @@ public class UserService {
         }
     }
 
+    public ResponseEntity<User> getUser(String id) {
+
+        try {
+            User user = userRepository.findById(id).orElseThrow(
+                    () -> new ErrorResponse("User not found", 404)
+            );
+            return ResponseEntity.ok(user);
+        } catch (ErrorResponse e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

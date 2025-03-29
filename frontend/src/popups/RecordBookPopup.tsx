@@ -4,7 +4,7 @@ import { AppDispatch } from "../hooks/hooks";
 import { useDispatch } from "react-redux";
 import { toggleRecordBookPopup } from "../store/slices/popUpSlice";
 import { toast } from "react-toastify";
-import { useFetchAllBooksQuery } from "../store/slices/bookSlice";
+import { useFetchAllBooksQuery } from "../store/api/bookApi";
 
 type props = {
   bookId: string;

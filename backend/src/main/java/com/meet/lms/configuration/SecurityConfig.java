@@ -51,7 +51,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers(
                                 "/api/v1/borrow/borrowed-books-by-user",
-                                "/api/v1/borrow/record-borrow-book/*"
+                                "/api/v1/borrow/record-borrow-book/*",
+                                "/api/v1/user/admin/*"
                         ).hasAuthority(UserRole.ADMIN.toString())
                         .anyRequest().authenticated()
                 )

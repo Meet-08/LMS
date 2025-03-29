@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { book } from "../../interfaces/bookInterface";
-import { ApiResponse, ErrorResponse } from "../../interfaces/ApiResponse";
+import { ApiResponse } from "../../interfaces/ApiResponse";
 
 const bookSlice = createApi({
   reducerPath: "bookApi",

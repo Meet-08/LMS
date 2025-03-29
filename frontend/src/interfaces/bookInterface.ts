@@ -2,14 +2,14 @@ export interface book {
   id?: string;
   title: string;
   author: string;
-  description: number;
+  description: string;
   price: number;
   quantity: number;
   availability?: boolean;
 }
 
 export interface borrowBook {
-  _id?: string;
+  id?: string;
   userId: string;
   bookId: string;
   bookTitle: string;
@@ -19,4 +19,5 @@ export interface borrowBook {
   price: number;
   fine?: number;
   returned?: boolean;
+  createdAt?: string;
 }

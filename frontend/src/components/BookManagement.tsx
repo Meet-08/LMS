@@ -1,7 +1,7 @@
 import { BookA, NotebookPen } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState, useAuth } from "../hooks/hooks";
-import { useFetchAllBooksQuery } from "../store/slices/bookSlice";
+import { useFetchAllBooksQuery } from "../store/api/bookApi";
 import { useEffect, useState } from "react";
 import { book } from "../interfaces/bookInterface";
 import {

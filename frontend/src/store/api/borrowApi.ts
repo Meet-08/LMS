@@ -21,6 +21,9 @@ export const borrowApi = createApi({
     getAllBorrowedBooks: builder.query<borrowBook[], void>({
       query: () => "/borrowed-books-by-user",
       providesTags: ["AllBorrowedBooks"], // Tag this query
+      transformResponse: (response: ApiResponse<borrowBook[]>) => {
+        return response.data || [];
+      },
     }),
     recordBorrowBook: builder.mutation<
       ApiResponse<string>,
@@ -39,7 +42,7 @@ export const borrowApi = createApi({
     >({
       query: ({ bookId, email }) => ({
         url: `/return-borrowed-book/${bookId}`, // Corrected URL path
-        method: "POST",
+        method: "PUT",
         body: { email },
       }),
       invalidatesTags: ["UserBorrowedBooks", "AllBorrowedBooks"], // Invalidate tags on mutation

@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import popUpReducer from "./slices/popUpSlice";
 import userReducer from "./slices/userSlice";
-import bookSlice from "./slices/bookSlice";
+import bookSlice from "./api/bookApi";
 // import borrowReducer from "./slices/borrowSlice"; // Removed old slice
 import { borrowApi } from "./api/borrowApi"; // Import the new API slice
 
