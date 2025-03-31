@@ -8,7 +8,7 @@ public class CookieUtil {
         Cookie cookie = new Cookie(cookieName, cookieValue);
         cookie.setPath("/");
         cookie.setHttpOnly(true);
-        cookie.setSecure(false); //true in production
+        cookie.setSecure(true); //true in production
         cookie.setMaxAge(days * 24 * 60 * 60);
         return cookie;
     }
