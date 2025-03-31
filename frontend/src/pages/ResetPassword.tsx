@@ -10,6 +10,7 @@ import {
 } from "../store/slices/authSlice";
 import logo_with_title from "../assets/logo-with-title.png";
 import logo from "../assets/black-logo.png";
+import { LoadingComponent } from "../components/component";
 
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
@@ -113,7 +114,16 @@ const ResetPassword = () => {
                 disabled={loading}
                 className="border-2 rounded-lg w-full capitalize text-white bg-black font-semibold border-black py-2 hover:bg-white hover:text-black transition"
               >
-                {loading ? "Resetting ..." : "Reset Password"}
+                {loading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Resetting..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Reset Password"
+                )}
               </button>
             </form>
           </div>

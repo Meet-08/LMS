@@ -8,6 +8,7 @@ import {
   Users,
   UserDashboard,
   MyBorrowedBook,
+  LoadingComponent,
 } from "../components/component";
 import { AppDispatch, useAuth } from "../hooks/hooks";
 import { Navigate } from "react-router";
@@ -17,7 +18,7 @@ import { toast } from "react-toastify";
 
 const Home = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
-  const [selectedComponent, setselectedComponent] = useState("");
+  const [selectedComponent, setSelectedComponent] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
   const { user, error, message, isAuthenticated, authChecked, loading } =
@@ -35,7 +36,7 @@ const Home = () => {
   }, [dispatch, isAuthenticated, error, message, authChecked]);
 
   if (loading || !authChecked) {
-    return <div>Loading...</div>;
+    return <LoadingComponent size="large" className="h-screen" />;
   }
 
   if (!isAuthenticated) {
@@ -54,7 +55,7 @@ const Home = () => {
         <Sidebar
           isSideBarOpen={isSideBarOpen}
           setIsSideBarOpen={setIsSideBarOpen}
-          setSelectedComponent={setselectedComponent}
+          setSelectedComponent={setSelectedComponent}
         />
         {(() => {
           switch (selectedComponent) {

@@ -118,7 +118,11 @@ const UserDashboard = () => {
             </div>
 
             <div className="bg-white p-7 text-lg sm:text-xl xl:text-3xl 2xl:text-4xl min-h-52 font-semibold relative flex-[3] flex justify-center items-center rounded-2xl">
-              <h4 className="overflow-hidden">""</h4>
+              <h4 className="overflow-hidden">
+                "Embark on the journey of reading fosters personal growth,
+                nurturing a path towards excellence and the refinement of
+                character."
+              </h4>
               <p className="text-gray-700 text-sm sm:text-lg absolute right-[35px] sm:right-[75px] bottom-[10px]">
                 ~BookWorm Team
               </p>
@@ -136,7 +140,7 @@ const UserDashboard = () => {
             <div className="flex items-center p-8 w-full sm:w-[400px] xl:w-fit xl:p-3 2xl:p-6 gap-5 h-fit xl:min-h-[150px] bg-white xl:flex-1 rounded-lg">
               <img src={logo} alt="logo" className="w-auto h-12 2xl:h-20" />
               <span className="w-[2px] bg-black h-20 lg:h-full"></span>
-              <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-3">
                 <p className="flex items-center gap-3">
                   <span className="h-3 w-3 rounded-full bg-[#3D3E3D]"></span>
                   <span>Total Borrowed Books</span>

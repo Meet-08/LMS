@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { otpVerification, resetAuthSlice } from "../store/slices/authSlice";
 import logo from "../assets/black-logo.png";
 import logo_with_title from "../assets/logo-with-title.png";
+import { LoadingComponent } from "../components/component";
 
 const OTP = () => {
   const { email } = useParams();
@@ -75,7 +76,16 @@ const OTP = () => {
                 disabled={loading}
                 className="border-2 rounded-lg w-full capitalize text-white bg-black font-semibold border-black py-2 hover:bg-white hover:text-black transition"
               >
-                {loading ? "Verifying ..." : "Verify"}
+                {loading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Verifying..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Verify"
+                )}
               </button>
             </form>
           </div>

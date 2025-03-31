@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router";
 import logo_with_title from "../assets/logo-with-title.png";
 import logo from "../assets/black-logo.png";
+import { LoadingComponent } from "../components/component";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -90,7 +91,16 @@ const ForgotPassword = () => {
                 disabled={loading}
                 className="border-2 rounded-lg w-full capitalize text-white bg-black font-semibold border-black py-2 hover:bg-white hover:text-black transition"
               >
-                {loading ? "Sending Reset password Token" : "Reset Password"}
+                {loading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Sending Reset Token..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Reset Password"
+                )}
               </button>
             </form>
           </div>

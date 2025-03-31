@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useGetAllBorrowedBooksQuery } from "../store/api/borrowApi";
 import { Typography } from "@mui/material";
 import Header from "../layouts/Header";
-import { BorrowBookRow } from "./component";
+import { BorrowBookRow, LoadingComponent } from "./component";
 import ReturnBookPopup from "../popups/ReturnBookPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../hooks/hooks";
@@ -43,7 +43,7 @@ const Catalog = () => {
   const booksToDisplay = filter === "borrowed" ? borrowedBooks : overdueBooks;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingComponent size="large" className="h-screen" />;
   }
 
   return (

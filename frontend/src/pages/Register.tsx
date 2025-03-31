@@ -7,6 +7,7 @@ import { register, resetAuthSlice } from "../store/slices/authSlice";
 import logo_with_title from "../assets/logo-with-title.png";
 import logo from "../assets/black-logo.png";
 import { toast } from "react-toastify";
+import { LoadingComponent } from "../components/component";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -154,7 +155,16 @@ const Register = () => {
                 type="submit"
                 className="border-2 rounded-lg w-full capitalize text-white bg-black font-semibold border-black py-2 hover:bg-white hover:text-black transition"
               >
-                {loading ? "Registering ..." : "Register"}
+                {loading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Registering..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Register"
+                )}
               </button>
             </form>
           </div>

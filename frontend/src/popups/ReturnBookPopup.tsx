@@ -6,6 +6,7 @@ import {
 } from "../store/api/borrowApi";
 import { toggleReturnBookPopup } from "../store/slices/popUpSlice";
 import { toast } from "react-toastify";
+import { LoadingComponent } from "../components/component";
 
 type props = {
   bookId: string;
@@ -57,9 +58,19 @@ const ReturnBookPopup = ({ bookId, email }: props) => {
               </button>
               <button
                 type="submit"
+                disabled={isLoading}
                 className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800"
               >
-                Return
+                {isLoading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Returning..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Return"
+                )}
               </button>
             </div>
           </form>

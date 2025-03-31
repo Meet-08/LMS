@@ -48,7 +48,8 @@ const Header = () => {
             {user?.name}
           </span>
           <span className="text-sm font-medium sm:text-lg sm:font-medium">
-            {user?.role}
+            {user?.role?.charAt(0).toUpperCase() +
+              (user?.role?.slice(1) ?? "") || "N/A"}
           </span>
         </div>
       </div>

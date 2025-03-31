@@ -7,6 +7,7 @@ import { toggleAddNewAdminPopup } from "../store/slices/popUpSlice";
 import keyIcon from "../assets/key.png";
 import closeIcon from "../assets/close-square.png";
 import placeHolder from "../assets/placeholder.jpg";
+import { LoadingComponent } from "../components/component";
 
 const AddNewAdminPopup = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -139,7 +140,16 @@ const AddNewAdminPopup = () => {
                 disabled={loading}
                 className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800"
               >
-                {loading ? "Adding..." : "Add"}
+                {loading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Adding..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Add"
+                )}
               </button>
             </div>
           </form>

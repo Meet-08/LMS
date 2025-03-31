@@ -12,6 +12,7 @@ import {
 import Header from "../layouts/Header";
 import { AddBookPopup, ReadBookPopup, RecordBookPopup } from "../popups/popups";
 import { Typography } from "@mui/material";
+import { LoadingComponent } from "./component";
 
 const BookManagement = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -57,11 +58,7 @@ const BookManagement = () => {
     );
 
   if (booksLoading)
-    return (
-      <Typography variant="h4" color="secondary">
-        Loading...
-      </Typography>
-    );
+    return <LoadingComponent size="large" className="h-screen" />;
 
   return (
     <>

@@ -5,6 +5,7 @@ import MyBorrowedBook from "./MyBorrowedBook";
 import Users from "./Users";
 import UserDashboard from "./UserDashboard";
 import BorrowBookRow from "./BorrowBookRow";
+import LoadingComponent from "./LoadingComponent";
 
 export {
   AdminDashboard,
@@ -14,4 +15,5 @@ export {
   Users,
   UserDashboard,
   BorrowBookRow,
+  LoadingComponent,
 };

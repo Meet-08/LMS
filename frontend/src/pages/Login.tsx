@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router";
 import logo from "../assets/black-logo.png";
 import logo_with_title from "../assets/logo-with-title.png";
+import { LoadingComponent } from "../components/component";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -93,7 +94,16 @@ const Login = () => {
                 disabled={loading}
                 className="border-2 rounded-lg w-full mt-4 capitalize text-white bg-black font-semibold border-black py-2 hover:bg-white hover:text-black transition"
               >
-                {loading ? "Sign In ... " : "Sign In"}
+                {loading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Sign In..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Sign In"
+                )}
               </button>
             </form>
           </div>

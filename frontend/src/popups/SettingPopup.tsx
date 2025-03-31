@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import settingIcon from "../assets/setting.png";
 import closeIcon from "../assets/close-square.png";
 import { toggleSettingPopup } from "../store/slices/popUpSlice";
+import { LoadingComponent } from "../components/component";
 
 const SettingPopup = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -107,7 +108,16 @@ const SettingPopup = () => {
                 disabled={loading}
                 className="px-4 py-2 bg-black text-white rounded-md hover:bg-gray-800"
               >
-                {loading ? "Updating..." : "Update"}
+                {loading ? (
+                  <LoadingComponent
+                    size="small"
+                    text="Updating..."
+                    showText={true}
+                    color="white"
+                  />
+                ) : (
+                  "Update"
+                )}
               </button>
             </div>
           </form>

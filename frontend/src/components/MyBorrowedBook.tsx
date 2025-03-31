@@ -11,6 +11,7 @@ import { BookA } from "lucide-react";
 import { useFetchAllBooksQuery } from "../store/api/bookApi";
 import { formateDateTime } from "../constants/dateformetter";
 import { ReadBookPopup } from "../popups/popups";
+import { LoadingComponent } from "./component";
 
 const MyBorrowedBook = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -43,7 +44,8 @@ const MyBorrowedBook = () => {
   if (!borrowedBooksLoading && borrowedBooksError)
     return <div>Something went wrong</div>;
 
-  if (borrowedBooksLoading) return <div>Loading...</div>;
+  if (borrowedBooksLoading)
+    return <LoadingComponent size="large" className="h-screen" />;
 
   return (
     <>
