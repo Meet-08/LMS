@@ -5,6 +5,7 @@ import com.meet.lms.securityResponse.UnauthenticatedResponse;
 import com.meet.lms.securityResponse.UnauthorizedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -70,6 +71,16 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
+    }
+
+    @Bean
+    public FilterRegistrationBean<SameSiteCookieFilter> sameSiteCookieFilterRegistration() {
+        FilterRegistrationBean<SameSiteCookieFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new SameSiteCookieFilter());
+        registrationBean.addUrlPatterns("/*");
+        registrationBean.setName("SameSiteCookieFilter");
+        registrationBean.setOrder(1);
+        return registrationBean;
     }
 
     @Bean

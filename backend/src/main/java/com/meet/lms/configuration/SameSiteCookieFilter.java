@@ -1,39 +1,52 @@
 package com.meet.lms.configuration;
 
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Component;
+import jakarta.servlet.http.HttpServletResponseWrapper;
 
 import java.io.IOException;
-import java.util.Collection;
 
-@Component
 public class SameSiteCookieFilter implements Filter {
+
+    private String sameSitePolicy = "None";
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        String policy = filterConfig.getInitParameter("SameSitePolicy");
+        if (policy != null) {
+            sameSitePolicy = policy;
+        }
+    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-
-        chain.doFilter(request, response);
-
         if (response instanceof HttpServletResponse) {
-            HttpServletResponse httpResponse = (HttpServletResponse) response;
-            Collection<String> headers = httpResponse.getHeaders("Set-Cookie");
-            if (headers != null && !headers.isEmpty()) {
-                // Clear existing Set-Cookie headers
-                httpResponse.setHeader("Set-Cookie", null);
-                for (String header : headers) {
-                    // Append SameSite=None if it's not already present.
-                    if (!header.toLowerCase().contains("samesite")) {
-                        header = header + "; SameSite=None; Secure";
+            HttpServletResponseWrapper responseWrapper = new HttpServletResponseWrapper((HttpServletResponse) response) {
+                @Override
+                public void addCookie(Cookie cookie) {
+                    StringBuilder cookieString = new StringBuilder();
+                    cookieString.append(cookie.getName()).append("=").append(cookie.getValue()).append("; Path=")
+                            .append(cookie.getPath() == null ? "/" : cookie.getPath());
+
+                    if (cookie.getMaxAge() >= 0) {
+                        cookieString.append("; Max-Age=").append(cookie.getMaxAge());
                     }
-                    httpResponse.addHeader("Set-Cookie", header);
+                    if (cookie.getSecure()) {
+                        cookieString.append("; Secure");
+                    }
+                    if (cookie.isHttpOnly()) {
+                        cookieString.append("; HttpOnly");
+                    }
+                    cookieString.append("; SameSite=").append(sameSitePolicy);
+
+                    ((HttpServletResponse) getResponse()).addHeader("Set-Cookie", cookieString.toString());
                 }
-            }
+            };
+            chain.doFilter(request, responseWrapper);
+        } else {
+            chain.doFilter(request, response);
         }
     }
 }
