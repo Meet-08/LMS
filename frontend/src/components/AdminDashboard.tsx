@@ -131,7 +131,7 @@ const AdminDashboard = () => {
                 </span>
                 <span className="w-[2px] bg-black h-20 lg:h-full"></span>
                 <div className="flex flex-col items-center gap-2">
-                  <h4 className="font-black text-3xl">{totalUsers}</h4>
+                  <h4 className="font-black text-3xl">{totalBooks}</h4>
                   <p className="font-light text-gray-700 text-sm">Total Book</p>
                 </div>
               </div>
