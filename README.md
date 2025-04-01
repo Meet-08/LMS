@@ -1,54 +1,63 @@
-# React + TypeScript + Vite
+# LMS - Library Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a Library Management System (LMS) with a Spring Boot backend and a React frontend.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+LMS/
+├── backend(Java)/      # Spring Boot application
+│   ├── pom.xml   # Maven configuration
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── src/      # Source code
+├── frontend(TypeScript)/     # React application
+│   ├── package.json # NPM configuration
+│   ├── vite.config.ts # Vite configuration
+│   └── src/      # Source code
+└── README.md
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **User Authentication:** Secure login, registration, OTP verification, and password reset functionality.
+- **Role-Based Access Control:** Distinct dashboards and capabilities for regular users and administrators.
+- **Book Catalog:** Browse and search available books in the library.
+- **Book Management (Admin):** Add new books, view book details (potentially edit/delete - inferred).
+- **Borrowing System:** Users can borrow books, view their currently borrowed books, and return them. Admins can manage borrowing records.
+- **User Management (Admin):** View and manage registered users.
+- **Email Notifications:** Automated emails for actions like registration, password reset, and potentially borrowing reminders (inferred from `EmailService` and `SchedulerService`).
+- **Profile Settings:** Users can manage their profile information (inferred from `SettingPopup`).
+- **Cloudinary Integration:** Handles image uploads
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## Technologies Used
+
+This project utilizes a modern technology stack chosen for robustness, scalability, and developer experience. The backend is built with Java and the Spring Boot framework, leveraging MongoDB for data persistence and Spring Security for authentication. The frontend is a dynamic single-page application powered by React and TypeScript, styled with Tailwind CSS, and managed using Vite for an efficient development workflow.
+
+**Backend:**
+
+- Java 21
+- Spring Boot 3.4.3
+- Maven
+- Spring Data MongoDB
+- Spring Security
+- Spring Web
+- Java Mail Sender
+- JJwt (JSON Web Token)
+- Cloudinary
+- Docker
+
+**Frontend:**
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS
+- React Router
+- Redux Toolkit
+- Axios
+- Chart.js
+- Material UI (@mui/material)
+- Lucide React Icons
+- React Icons
+- React Toastify
