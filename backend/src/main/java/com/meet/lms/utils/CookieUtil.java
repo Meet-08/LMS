@@ -16,7 +16,7 @@ public class CookieUtil {
     public static Cookie deleteCookie(String cookieName) {
         Cookie cookie = new Cookie(cookieName, "");
         cookie.setHttpOnly(true);
-        cookie.setSecure(false);
+        cookie.setSecure(true);
         cookie.setPath("/");
         cookie.setMaxAge(0);
         return cookie;
