@@ -9,16 +9,17 @@ export type AppDispatch = typeof store.dispatch;
 
 export const useAuth = () => useSelector((state: RootState) => state.auth);
 
-export const useUser = (id: number | string) => {
-  const [user, setUser] = useState<User | null>(null);
+export const useUser = () => {
+  const [users, setUsers] = useState<Array<User> | null>(null);
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get(`user/admin/${id}`);
-        setUser(response.data);
+        const response = await axios.get(`user/admin/borrow-users`);
+        console.log("Fetched users:", response);
+        setUsers(response.data);
       } catch (err: any) {
         console.error("Error fetching user:", err);
         setError(err);
@@ -26,11 +27,8 @@ export const useUser = (id: number | string) => {
         setLoading(false);
       }
     };
+    fetchUser();
+  }, []);
 
-    if (id) {
-      fetchUser();
-    }
-  }, [id]);
-
-  return { user, error, loading };
+  return { users, error, loading };
 };

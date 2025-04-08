@@ -131,7 +131,6 @@ const authSlice = createSlice({
     },
 
     updatePasswordRequest: (state) => {
-      state.loading = true;
       state.error = null;
       state.message = null;
     },
@@ -211,6 +210,7 @@ export const logout = () => async (dispatch: Dispatch) => {
     .get("auth/logout")
     .then((res) => {
       dispatch(authSlice.actions.logoutSuccess(res.data));
+      window.location.reload();
     })
     .catch((err: AxiosError) => {
       dispatch(authSlice.actions.logoutFailed(err.response?.data));

@@ -34,9 +34,9 @@ public class UserController {
         return userService.registerNewAdmin(user, avatarFile);
     }
 
-    @GetMapping("admin/{id}")
-    public ResponseEntity<User> getUser(@PathVariable String id) {
-        return userService.getUser(id);
+    @GetMapping("admin/borrow-users")
+    public ResponseEntity<List<User>> getUsers() {
+        return userService.getUsers();
     }
 
     @ExceptionHandler(Exception.class)

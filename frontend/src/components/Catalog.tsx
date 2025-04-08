@@ -2,23 +2,23 @@ import { useState } from "react";
 import { useGetAllBorrowedBooksQuery } from "../store/api/borrowApi";
 import { Typography } from "@mui/material";
 import Header from "../layouts/Header";
-import { BorrowBookRow, LoadingComponent } from "./component";
+import { LoadingComponent } from "./component";
 import ReturnBookPopup from "../popups/ReturnBookPopup";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../hooks/hooks";
+import { AppDispatch, RootState, useUser } from "../hooks/hooks";
 import { toggleReturnBookPopup } from "../store/slices/popUpSlice";
+import { formateDate, formateDateTime } from "../constants/dateformetter";
+import { FaSquareCheck } from "react-icons/fa6";
+import { PiKeyReturnBold } from "react-icons/pi";
 
 const Catalog = () => {
   const { returnBookPopup } = useSelector((state: RootState) => state.popup);
+  const { users } = useUser();
   const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState("");
   const [borrowedBookId, setBorrowedBookId] = useState("");
 
-  const {
-    data: allBorrowedBooks,
-    isLoading,
-    isError,
-  } = useGetAllBorrowedBooksQuery();
+  const { data: allBorrowedBooks, isLoading } = useGetAllBorrowedBooksQuery();
 
   const [filter, setFilter] = useState<"borrowed" | "overdue">("borrowed");
 
@@ -31,14 +31,18 @@ const Catalog = () => {
 
   const currentDate = new Date();
   const borrowedBooks =
-    allBorrowedBooks?.filter(
-      (book) => book.dueDate && book.dueDate > currentDate.toISOString()
-    ) || [];
+    allBorrowedBooks?.filter((book) => {
+      if (!book.dueDate) return false;
+      const dueDate = new Date(book.dueDate);
+      return dueDate > currentDate;
+    }) || [];
 
   const overdueBooks =
-    allBorrowedBooks?.filter(
-      (book) => book.dueDate && book.dueDate < currentDate.toISOString()
-    ) || [];
+    allBorrowedBooks?.filter((book) => {
+      if (!book.dueDate) return false;
+      const dueDate = new Date(book.dueDate);
+      return dueDate < currentDate;
+    }) || [];
 
   const booksToDisplay = filter === "borrowed" ? borrowedBooks : overdueBooks;
 
@@ -89,14 +93,44 @@ const Catalog = () => {
                 </tr>
               </thead>
               <tbody>
-                {booksToDisplay.map((book, index) => (
-                  <BorrowBookRow
-                    key={book.id || index}
-                    book={book}
-                    index={index}
-                    openReturnBookPopup={openReturnBookPopup}
-                  />
-                ))}
+                {booksToDisplay.map((book, index) => {
+                  const user = users?.find((u) => u.id === book.userId);
+                  if (user) {
+                    return (
+                      <tr
+                        className={(index + 1) % 2 === 0 ? "bg-gray-50" : ""}
+                        key={book.id || index}
+                      >
+                        <td className="px-4 py-2 text-center">{index + 1}</td>
+                        <td className="px-4 py-2 text-center">{user?.name}</td>
+                        <td className="px-4 py-2 text-center">{user?.email}</td>
+                        <td className="px-4 py-2 text-center">{book.price}</td>
+                        <td className="px-4 py-2 text-center">
+                          {formateDate(book.dueDate)}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+                          {formateDateTime(book.createdAt)}
+                        </td>
+                        <td className="px-4 py-2 flex space-x-2 my-3 justify-center">
+                          {book.returned ? (
+                            <FaSquareCheck className="size-6" />
+                          ) : (
+                            <PiKeyReturnBold
+                              onClick={() =>
+                                openReturnBookPopup(
+                                  user?.email || "",
+                                  book.bookId || ""
+                                )
+                              }
+                              className="size-6 cursor-pointer"
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  }
+                  return <LoadingComponent key={index} size="small" />;
+                })}
               </tbody>
             </table>
           </div>

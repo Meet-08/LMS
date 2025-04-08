@@ -96,7 +96,6 @@ public class BorrowedBookService {
             borrowedBook.setReturnDate(LocalDateTime.now());
             borrowedBook.setFine(calculateFine(borrowedBook.getDueDate()));
 
-            user.getBorrowedBooks().remove(borrowedBook);
 
             book.setQuantity(book.getQuantity() + 1);
             book.setAvailability(book.getQuantity() > 0);
@@ -159,7 +158,6 @@ public class BorrowedBookService {
                 throw new ErrorResponse("User not found", 404);
 
             List<BorrowedBooks> borrowedBooks = user.getBorrowedBooks();
-
             return ResponseEntity.ok(
                     new ApiResponse<>(borrowedBooks, true)
             );

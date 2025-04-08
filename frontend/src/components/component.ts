@@ -4,7 +4,6 @@ import Catalog from "./Catalog";
 import MyBorrowedBook from "./MyBorrowedBook";
 import Users from "./Users";
 import UserDashboard from "./UserDashboard";
-import BorrowBookRow from "./BorrowBookRow";
 import LoadingComponent from "./LoadingComponent";
 
 export {
@@ -14,6 +13,5 @@ export {
   MyBorrowedBook,
   Users,
   UserDashboard,
-  BorrowBookRow,
   LoadingComponent,
 };

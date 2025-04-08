@@ -12,8 +12,8 @@ import {
   PointElement,
   ArcElement,
 } from "chart.js";
-import { AppDispatch, RootState, useAuth } from "../hooks/hooks";
-import { useDispatch, useSelector } from "react-redux";
+import { RootState, useAuth } from "../hooks/hooks";
+import { useSelector } from "react-redux";
 import { useFetchAllBooksQuery } from "../store/api/bookApi";
 import { useGetAllBorrowedBooksQuery } from "../store/api/borrowApi";
 import adminIcon from "../assets/pointing.png";
@@ -35,12 +35,10 @@ ChartJS.register(
 );
 
 const AdminDashboard = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const { user } = useAuth();
   const { users } = useSelector((state: RootState) => state.user);
   const { data: books } = useFetchAllBooksQuery();
   const { data: allBorrowedBooks } = useGetAllBorrowedBooksQuery();
-  const { settingPopup } = useSelector((state: RootState) => state.popup);
 
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalAdmin, setTotalAdmin] = useState(0);
@@ -65,6 +63,7 @@ const AdminDashboard = () => {
 
     setTotalBorrowedBooks(totalBorrowed || 0);
     setTotalReturnedBooks(totalReturned || 0);
+    setTotalBooks(books?.length || 0);
   }, [users, allBorrowedBooks]);
 
   const data = {

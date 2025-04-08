@@ -1,26 +1,25 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { borrowBook } from "../../interfaces/bookInterface";
-import { ApiResponse } from "../../interfaces/ApiResponse"; // Assuming a generic ApiResponse type exists
+import { ApiResponse } from "../../interfaces/ApiResponse";
 
-// Define a service using a base URL and expected endpoints
 export const borrowApi = createApi({
   reducerPath: "borrowApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${import.meta.env.VITE_BACKEND_URL}/borrow`,
     credentials: "include",
-  }), // Adjust baseUrl if your API is hosted elsewhere
-  tagTypes: ["UserBorrowedBooks", "AllBorrowedBooks", "Book"], // Define tags for caching invalidation
+  }),
+  tagTypes: ["UserBorrowedBooks", "AllBorrowedBooks", "Book"],
   endpoints: (builder) => ({
     getUserBorrowedBooks: builder.query<borrowBook[], void>({
       query: () => "/my-borrowed-books",
-      providesTags: ["UserBorrowedBooks"], // Tag this query
+      providesTags: ["UserBorrowedBooks"],
       transformResponse: (response: ApiResponse<borrowBook[]>) => {
         return response.data || [];
       },
     }),
     getAllBorrowedBooks: builder.query<borrowBook[], void>({
       query: () => "/borrowed-books-by-user",
-      providesTags: ["AllBorrowedBooks"], // Tag this query
+      providesTags: ["AllBorrowedBooks"],
       transformResponse: (response: ApiResponse<borrowBook[]>) => {
         return response.data || [];
       },
@@ -34,14 +33,14 @@ export const borrowApi = createApi({
         method: "POST",
         body: { email },
       }),
-      invalidatesTags: ["UserBorrowedBooks", "AllBorrowedBooks", "Book"], // Invalidate tags on mutation
+      invalidatesTags: ["UserBorrowedBooks", "AllBorrowedBooks", "Book"],
     }),
     returnBook: builder.mutation<
       ApiResponse<string>,
       { bookId: string; email: string }
     >({
       query: ({ bookId, email }) => ({
-        url: `/return-borrowed-book/${bookId}`, // Corrected URL path
+        url: `/return-borrowed-book/${bookId}`,
         method: "PUT",
         body: { email },
       }),

@@ -4,6 +4,7 @@ import com.meet.lms.models.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface UserRepository extends MongoRepository<User, String> {
     User findByResetPasswordToken(String resetPasswordToken);
 
     List<User> findByAccountVerified(boolean b);
+
+    @Query("{'borrowedBooks': { $exists: true, $not: { $size: 0 } } }")
+    List<User> findByBorrowedBooksNotEmpty();
 }

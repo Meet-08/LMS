@@ -72,15 +72,9 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<User> getUser(String id) {
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userRepository.findByBorrowedBooksNotEmpty();
 
-        try {
-            User user = userRepository.findById(id).orElseThrow(
-                    () -> new ErrorResponse("User not found", 404)
-            );
-            return ResponseEntity.ok(user);
-        } catch (ErrorResponse e) {
-            throw new RuntimeException(e);
-        }
+        return ResponseEntity.ok(users);
     }
 }

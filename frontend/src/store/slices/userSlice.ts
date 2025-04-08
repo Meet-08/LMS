@@ -1,7 +1,7 @@
 import { createSlice, Dispatch } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { User, userState } from "../../interfaces/userInterface";
+import { userState } from "../../interfaces/userInterface";
 
 const initialState: userState = {
   users: [],

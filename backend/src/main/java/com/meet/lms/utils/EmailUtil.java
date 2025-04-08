@@ -24,7 +24,7 @@ public class EmailUtil {
                     </p>
                 
                     <footer style="text-align: center; font-size: 12px; color: #666;">
-                        <p>© YourCompany Team</p>
+                        <p>© BookWorm Library</p>
                         <p style="font-size: 10px; color: #999;">This is an automated message. Please do not reply to this email.</p>
                     </footer>
                 </div>
@@ -53,7 +53,7 @@ public class EmailUtil {
                     </p>
                 
                     <footer style="text-align: center; font-size: 12px; color: #666;">
-                        <p>© YourCompany Team</p>
+                        <p>© BookWorm Library</p>
                         <p style="font-size: 10px; color: #999;">This is an automated message. Please do not reply to this email.</p>
                     </footer>
                 </div>
@@ -74,7 +74,7 @@ public class EmailUtil {
                         If you have already returned the book, kindly disregard this message.
                     </p>
                     <footer style="text-align: center; font-size: 12px; color: #666;">
-                        <p>© YourLibrary Team</p>
+                        <p>© BookWorm Library</p>
                         <p style="font-size: 10px; color: #999;">This is an automated reminder. Please do not reply to this email.</p>
                     </footer>
                 </div>

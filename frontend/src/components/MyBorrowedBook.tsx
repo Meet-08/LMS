@@ -8,10 +8,10 @@ import Header from "../layouts/Header";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
 import { BookA } from "lucide-react";
-import { useFetchAllBooksQuery } from "../store/api/bookApi";
 import { formateDateTime } from "../constants/dateformetter";
 import { ReadBookPopup } from "../popups/popups";
 import { LoadingComponent } from "./component";
+import { useFetchAllBooksQuery } from "../store/api/bookApi";
 
 const MyBorrowedBook = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -22,6 +22,7 @@ const MyBorrowedBook = () => {
     isError: borrowedBooksError,
   } = useGetUserBorrowedBooksQuery();
 
+  const { data: borrowedBooks } = useGetUserBorrowedBooksQuery();
   const { data: books } = useFetchAllBooksQuery();
   const { readBookPopup } = useSelector((state: RootState) => state.popup);
   const [readBook, setReadBook] = useState<book>();
@@ -127,7 +128,8 @@ const MyBorrowedBook = () => {
           </div>
         ) : (
           <Typography variant="h3" color="secondary">
-            No {filter === "returned" ? "returned" : "non returned"} books found
+            No {filter === "returned" ? "returned" : "non returned"}{" "}
+            borrowedBooks found
           </Typography>
         )}
       </main>
